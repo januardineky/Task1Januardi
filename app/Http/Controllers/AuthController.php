@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthController extends Controller
 {
@@ -16,9 +17,12 @@ class AuthController extends Controller
         ]);
 
         if (auth()->attempt($validate)) {
-                return redirect('/index');
+            $user = auth()->user();
+            $welcomeMessage = 'Welcome ' . $user->name;
+            toast($welcomeMessage, 'success');
+            return redirect('/index');
         }
-        // Alert::error('Peringatan', 'Username atau Password salah');
+        Alert::error('Peringatan', 'Username atau Password salah');
         return redirect('/');
 
     }

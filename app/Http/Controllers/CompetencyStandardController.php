@@ -56,8 +56,9 @@ class CompetencyStandardController extends Controller
     
     public function edit($id)
     {
+        $userId = Auth::id();
         $standard = CompetencyStandard::with('major')->findOrFail($id);
-        $majors = Major::all(); // Ambil semua data Major
+        $majors = Major::where('user_id', $userId)->get();
         return view('update', compact('standard', 'majors'));
     }
     
